@@ -8,6 +8,7 @@ import Shop from './pages/Shop'
 import Cart from './pages/Cart'
 import Dashboard from './pages/Dashboard'
 import Header from './components/Header'
+import SignUp from './pages/SignUp'
 
 export default function App() {
   return (
@@ -17,10 +18,10 @@ export default function App() {
         <Route path="/" element={<Home />} />
         <Route path='/sign-in' element={<Login />} />
         <Route path='/about' element={<About />} />
-        <Route path='/sign-out' element={<SignOut />} />
         <Route path='/shop' element={<Shop />} />
         <Route path='/cart' element={<Cart />} />
         <Route path='/dashboard' element={<Dashboard />} />
+        <Route path='/sign-up' element={<SignUp />} />
       </Routes>
     </BrowserRouter>
   )
