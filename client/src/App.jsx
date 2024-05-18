@@ -8,6 +8,7 @@ import Cart from './pages/Cart'
 import Dashboard from './pages/Dashboard'
 import Header from './components/Header'
 import SignUp from './pages/SignUp'
+import FooterCom from './components/Footer'
 
 export default function App() {
   return (
@@ -22,6 +23,7 @@ export default function App() {
         <Route path='/dashboard' element={<Dashboard />} />
         <Route path='/sign-up' element={<SignUp />} />
       </Routes>
+      <FooterCom />
     </BrowserRouter>
   )
 }
