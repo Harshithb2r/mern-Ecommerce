@@ -1,10 +1,12 @@
-import { Button, Navbar, NavbarToggle, TextInput } from 'flowbite-react'
+import { Avatar, Button, Dropdown, Navbar, NavbarToggle, TextInput } from 'flowbite-react'
 import { Link, useLocation } from 'react-router-dom'
 import { AiOutlineSearch } from 'react-icons/ai';
 import './Header.css'
+import { useSelector } from 'react-redux';
 
 export default function Header() {
     const path = useLocation().pathname;
+    const { currentUser } = useSelector(state => state.user)
     return (
         <Navbar className='border-b-2'>
             <Link
@@ -30,13 +32,28 @@ export default function Header() {
                 <AiOutlineSearch />
             </Button>
             <div className='flex gap-6 md:order-2'>
-                <Link to='/sign-in'>
-                    <Button gradientDuoTone='greenToBlue' outline>
-                        Sign In
-                    </Button>
-                </Link>
+                {currentUser ? (
+                    <Dropdown arrowIcon={false} inline label={<Avatar alt='user avatar' img={currentUser.profilePicture} rounded />}>
+                        <Dropdown.Header>
+                            <span className='block text-sm'>{currentUser.username}</span>
+                            <span className='block text-sm font-medium truncate'>{currentUser.email}</span>
+                        </Dropdown.Header>
+                        <Link to={'/dashboard?tab=profile'}>
+                            <Dropdown.Item>Profile</Dropdown.Item>
+                        </Link>
+                        <Dropdown.Divider />
+                        <Dropdown.Item >Sign out</Dropdown.Item>
+                    </Dropdown>
+                ) : (
+                    <Link to='/sign-in'>
+                        <Button gradientDuoTone='greenToBlue' outline>
+                            Sign In
+                        </Button>
+                    </Link>
+                )
+                }
                 <NavbarToggle />
-            </div>
+            </div >
             <Navbar.Collapse>
                 <Navbar.Link active={path === '/'} as={'div'}>
                     <Link to='/'>
@@ -53,7 +70,23 @@ export default function Header() {
                         <p className='ok'>Shop</p>
                     </Link>
                 </Navbar.Link>
+
+                <Navbar.Link>
+                    {currentUser ? (
+                        <>
+                            {currentUser.isAdmin ? (
+                                <Navbar.Link active={path === "/dashboard"} as={'div'}>
+                                    <Link to='/dashboard'><p className='ok'>Dashboard</p></Link>
+                                </Navbar.Link>
+                            ) : (
+                                <Navbar.Link active={path === "/cart"} as={'div'}>
+                                    <Link to='/cart'><p className='ok'>Cart</p></Link>
+                                </Navbar.Link>
+                            )}
+                        </>
+                    ) : null}
+                </Navbar.Link>
             </Navbar.Collapse>
-        </Navbar>
+        </Navbar >
     )
 }
